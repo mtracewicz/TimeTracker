@@ -26,10 +26,10 @@
         <Button Name="SettingsButton" Content="Settings" Background="#f03e47" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,5,5,5" Padding="5,5,5,5" Click="SettingsButton_Click"/>
         <Button MinHeight="50px" Name="StartButton" Content="Start tracking" Click="StartButton_Click" Grid.Column="0" Grid.Row="5" Background="#f03e47" Grid.ColumnSpan="3" VerticalAlignment="Bottom"/>
         <Button MinHeight="50px" Name="StopButton" Content="Stop tracking" Grid.Column="3" Grid.Row="5" Click="StopButton_Click" Background="#f03e47" Grid.ColumnSpan="3" VerticalAlignment="Bottom"/>
-        <StackPanel Orientation="Horizontal" Background="#f03e47" MaxHeight="25px" VerticalAlignment="Top" Grid.Column="4" Grid.ColumnSpan="2">
+        <DockPanel LastChildFill="True" Background="#f03e47" MaxHeight="25px" VerticalAlignment="Top" Grid.Column="4" Grid.ColumnSpan="2">
             <Label Content="Service status:"/>
             <Label Name="ServiceStatusLabel" Content=""/>
-        </StackPanel>
+        </DockPanel>
         <ScrollViewer Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="4" Grid.RowSpan="4" VerticalScrollBarVisibility="Auto">
             <StackPanel Background="#ff555b6e">
 

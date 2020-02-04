@@ -1,4 +1,5 @@
-﻿using System.ServiceProcess;
+﻿using System.Drawing;
+using System.ServiceProcess;
 using System.Windows;
 
 namespace GUI
@@ -22,6 +23,7 @@ namespace GUI
             _ServiceController.Start();
             ServiceStatusLabel.Content = "Running";
             EnableStartStopButtons(true);
+            ServiceStatusLabel.Background = (System.Windows.Media.Brush)new System.Windows.Media.BrushConverter().ConvertFromString("#ff89b0ae");
         }
 
         private void StopButton_Click(object sender, RoutedEventArgs e)
@@ -29,6 +31,7 @@ namespace GUI
 
             _ServiceController.Stop();
             ServiceStatusLabel.Content = "Stoped";
+            ServiceStatusLabel.Background = (System.Windows.Media.Brush)new System.Windows.Media.BrushConverter().ConvertFromString("#fff03e47");
             EnableStartStopButtons(false);
         }
 

@@ -189,7 +189,7 @@
             "SourcePath" = "8:..\\GUI\\timer.ico"
             "TargetName" = "8:timer.ico"
             "Tag" = "8:"
-            "Folder" = "8:_0708642BE2A0417FAD7D6AEFBC940228"
+            "Folder" = "8:_080B289B9A4E4442ADF662C240A345E4"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -251,6 +251,17 @@
             "Property" = "8:TARGETDIR"
                 "Folders"
                 {
+                    "{9EF0B969-E518-4E46-987F-47570745A589}:_080B289B9A4E4442ADF662C240A345E4"
+                    {
+                    "Name" = "8:Assets"
+                    "AlwaysCreate" = "11:FALSE"
+                    "Condition" = "8:"
+                    "Transitive" = "11:FALSE"
+                    "Property" = "8:_73F3A8E60FFC41B2AA5D7AADCA8DD210"
+                        "Folders"
+                        {
+                        }
+                    }
                 }
             }
             "{1525181F-901A-416C-8A58-119130FE478E}:_42BB239B03FE4B3B9973D33518740E4E"
@@ -292,7 +303,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:TimeTracker"
         "ProductCode" = "8:{5D04C33B-0CB7-4829-B5DD-50B42C0DBF97}"
-        "PackageCode" = "8:{C27B6E22-FA81-4E42-81B3-A084FFBEC67D}"
+        "PackageCode" = "8:{5688CEE9-C217-4822-B723-6BACD2736292}"
         "UpgradeCode" = "8:{BDA07B2C-893C-48BB-8EF2-729AC8245EE9}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
