@@ -1,0 +1,39 @@
+﻿<Window x:Class="GUI.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GUI"
+        mc:Ignorable="d"
+        Title="Time tracker" Height="600" Width="800" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
+    <Grid Background="#2e2e2e">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+        <Button Name="SettingsButton" Content="Settings" Background="#f03e47" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,5,5,5" Padding="5,5,5,5" Click="SettingsButton_Click"/>
+        <Button MinHeight="50px" Name="StartButton" Content="Start tracking" Click="StartButton_Click" Grid.Column="0" Grid.Row="5" Background="#f03e47" Grid.ColumnSpan="3" VerticalAlignment="Bottom"/>
+        <Button MinHeight="50px" Name="StopButton" Content="Stop tracking" Grid.Column="3" Grid.Row="5" Click="StopButton_Click" Background="#f03e47" Grid.ColumnSpan="3" VerticalAlignment="Bottom"/>
+        <StackPanel Orientation="Horizontal" Background="#f03e47" MaxHeight="25px" VerticalAlignment="Top" Grid.Column="4" Grid.ColumnSpan="2">
+            <Label Content="Service status:"/>
+            <Label Name="ServiceStatusLabel" Content=""/>
+        </StackPanel>
+        <ScrollViewer Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="4" Grid.RowSpan="4" VerticalScrollBarVisibility="Auto">
+            <StackPanel Background="#ff555b6e">
+
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</Window>
