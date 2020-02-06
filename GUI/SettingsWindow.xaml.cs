@@ -2,10 +2,11 @@
 using System;
 using System.Collections.Generic;
 using System.Configuration;
-using System.Drawing;
 using System.Text;
 using System.Windows;
+using System.Linq;
 using System.Windows.Controls;
+using System.IO;
 
 namespace GUI
 {
@@ -14,7 +15,8 @@ namespace GUI
     /// </summary>
     public partial class SettingsWindow : Window
     {
-        private Window _MainWindow;
+        private readonly Window _MainWindow;
+        private List<String> _AppsToTrack;
         public SettingsWindow()
         {
             InitializeComponent();
@@ -30,48 +32,27 @@ namespace GUI
 
         private void LoadAppsList()
         {
-            var apps = GetListOfInstalledApps();
-            foreach(String app in apps)
+            _AppsToTrack = GetAppsInConfig().ToList();
+            foreach (String appName in _AppsToTrack)
             {
-                Button button = new Button
+                if (!String.IsNullOrWhiteSpace(appName))
                 {
-                    Content = app,
-                    Margin = new Thickness(2.5, 2.5, 2.5, 2.5),
-                    Background = (System.Windows.Media.Brush)new System.Windows.Media.BrushConverter().ConvertFromString("#ff555b6e"),
-                };
-                button.Click += Button_Click;
-                if(this.CheckIfAppInConfig(app))
-                {
-                    TrackedApps.Children.Add(button);
+                    DockPanel dockPanel = ControlsFactory.CreateDockpanel(appName, RemoveButton_Click);
+                    TrackedAppsPanel.Children.Add(dockPanel);
                 }
-                else
-                {
-                    InstalledApps.Children.Add(button);
-                }                
-            }            
+            }
         }
 
-        private bool CheckIfAppInConfig(String app)
+        private IEnumerable<string> GetAppsInConfig()
         {
-
             var config = ConfigurationManager.OpenExeConfiguration("TimerService.exe");
-            return config.AppSettings.Settings["AppsToTrack"].Value.Contains(app);
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            InstalledApps.Children.Remove(sender as UIElement);
-            TrackedApps.Children.Add(sender as UIElement);
-            (sender as Button).Click += RemoveButton_Click;
-            (sender as Button).Click -= Button_Click;
+            return config.AppSettings.Settings["AppsToTrack"].Value.Split(',');
         }
 
         private void RemoveButton_Click(object sender, RoutedEventArgs e)
         {
-            TrackedApps.Children.Remove(sender as UIElement);
-            InstalledApps.Children.Add(sender as UIElement);
-            (sender as Button).Click -= Button_Click;
-            (sender as Button).Click += RemoveButton_Click;
+            TrackedAppsPanel.Children.Remove(sender as UIElement);
+            _AppsToTrack.Remove((sender as Button).Content as String);
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -82,44 +63,38 @@ namespace GUI
                 _MainWindow.Show();
             }
         }
-        private List<String> GetListOfInstalledApps()
-        {
-            string uninstallKey = @"SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall";
-            List<String> installedApps = new List<string>();
-            using (RegistryKey rk = Registry.LocalMachine.OpenSubKey(uninstallKey))
-            {
-                foreach (string skName in rk.GetSubKeyNames())
-                {
-                    using (RegistryKey sk = rk.OpenSubKey(skName))
-                    {
-                        try
-                        {
-                            String displayName = (sk.GetValue("DisplayName") as String);
-                            if (displayName != null)
-                            {
-                                installedApps.Add(displayName);
-                            }
-                        }
-                        catch (Exception)
-                        {
-                        }
-                    }
-                }
-            }
-            return installedApps;
-        }
+
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
             var config = ConfigurationManager.OpenExeConfiguration("TimerService.exe");
             StringBuilder builder = new StringBuilder();
-            foreach (var el in TrackedApps.Children)
+            foreach (var app in _AppsToTrack)
             {
-                builder.Append($"{(el as Button).Content},");
+                builder.Append($"{app},");
             }
             config.AppSettings.Settings["AppsToTrack"].Value = builder.ToString();
             config.Save();
-            MessageBox.Show("Configuration sucessfully saved!","Settings",MessageBoxButton.OK,MessageBoxImage.Information);
+            MessageBox.Show("Configuration sucessfully saved!", "Settings", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+
+        private void AddAppButton_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog fileDialog = new OpenFileDialog
+            {
+                Filter = "Executable Files (.exe)|*.exe"
+            };
+            fileDialog.ShowDialog();
+            if (!_AppsToTrack.Contains(fileDialog.FileName))
+            {
+                DockPanel dockPanel = ControlsFactory.CreateDockpanel(fileDialog.FileName, RemoveButton_Click);
+                TrackedAppsPanel.Children.Add(dockPanel);
+                _AppsToTrack.Add(fileDialog.FileName);
+            }
+            else 
+            {
+                MessageBox.Show("App is already added!", "Duplicate!", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
         }
     }
 }

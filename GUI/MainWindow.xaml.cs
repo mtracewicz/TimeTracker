@@ -1,6 +1,7 @@
-﻿using System.Drawing;
+﻿using System;
 using System.ServiceProcess;
 using System.Windows;
+using System.Windows.Media;
 
 namespace GUI
 {
@@ -9,7 +10,7 @@ namespace GUI
     /// </summary>
     public partial class MainWindow : Window
     {
-        private ServiceController _ServiceController;
+        private readonly ServiceController _ServiceController;
         public MainWindow()
         {
             InitializeComponent();
@@ -22,8 +23,8 @@ namespace GUI
         {
             _ServiceController.Start();
             ServiceStatusLabel.Content = "Running";
+            ServiceStatusLabel.Background = Utils.GetBrushFromHex("#ff89b0ae");
             EnableStartStopButtons(true);
-            ServiceStatusLabel.Background = (System.Windows.Media.Brush)new System.Windows.Media.BrushConverter().ConvertFromString("#ff89b0ae");
         }
 
         private void StopButton_Click(object sender, RoutedEventArgs e)
@@ -31,24 +32,15 @@ namespace GUI
 
             _ServiceController.Stop();
             ServiceStatusLabel.Content = "Stoped";
-            ServiceStatusLabel.Background = (System.Windows.Media.Brush)new System.Windows.Media.BrushConverter().ConvertFromString("#fff03e47");
+            ServiceStatusLabel.Background = Utils.GetBrushFromHex("#fff03e47");
             EnableStartStopButtons(false);
         }
 
         private void EnableStartStopButtons(bool running)
         {
-            if (running)
-            {
-                StartButton.IsEnabled = false;
-                StopButton.IsEnabled = true;
-                SettingsButton.IsEnabled = false;
-            }
-            else
-            {
-                StartButton.IsEnabled = true;
-                StopButton.IsEnabled = false;
-                SettingsButton.IsEnabled = true;
-            }
+            StartButton.IsEnabled = !running;
+            StopButton.IsEnabled = running;
+            SettingsButton.IsEnabled = !running;
         }
 
         private void SettingsButton_Click(object sender, RoutedEventArgs e)

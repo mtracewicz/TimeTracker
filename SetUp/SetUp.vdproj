@@ -303,7 +303,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:TimeTracker"
         "ProductCode" = "8:{5D04C33B-0CB7-4829-B5DD-50B42C0DBF97}"
-        "PackageCode" = "8:{5688CEE9-C217-4822-B723-6BACD2736292}"
+        "PackageCode" = "8:{F2984716-C1B7-4773-8CB3-CA674FC50A1E}"
         "UpgradeCode" = "8:{BDA07B2C-893C-48BB-8EF2-729AC8245EE9}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"

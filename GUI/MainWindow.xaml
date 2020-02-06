@@ -31,7 +31,7 @@
             <Label Name="ServiceStatusLabel" Content=""/>
         </DockPanel>
         <ScrollViewer Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="4" Grid.RowSpan="4" VerticalScrollBarVisibility="Auto">
-            <StackPanel Background="#ff555b6e">
+            <StackPanel Background="#ff555b6e" Name="EntriesPanel">
 
             </StackPanel>
         </ScrollViewer>
