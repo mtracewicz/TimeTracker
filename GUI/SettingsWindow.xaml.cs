@@ -51,8 +51,8 @@ namespace GUI
 
         private void RemoveButton_Click(object sender, RoutedEventArgs e)
         {
-            TrackedAppsPanel.Children.Remove(sender as UIElement);
-            _AppsToTrack.Remove((sender as Button).Content as String);
+            TrackedAppsPanel.Children.Remove((sender as Button).Parent as UIElement);
+            _AppsToTrack.Remove((((sender as Button).Parent as DockPanel).Children[1] as Label).Content as String);
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
