@@ -3,7 +3,7 @@
 "VSVersion" = "3:800"
 "ProjectType" = "8:{978C614F-708E-4E1A-B201-565925725DBA}"
 "IsWebType" = "8:FALSE"
-"ProjectName" = "8:SetUp"
+"ProjectName" = "8:TimeTrackerInstaller"
 "LanguageId" = "3:1033"
 "CodePage" = "3:1252"
 "UILanguageId" = "3:1033"
@@ -27,6 +27,30 @@
         }
         "Entry"
         {
+        "MsmKey" = "8:_59FFAD58016B3EAF5AC30E0BC9B6B902"
+        "OwnerKey" = "8:_7EEB249CBEBB4EA88ED141BF64349D60"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_59FFAD58016B3EAF5AC30E0BC9B6B902"
+        "OwnerKey" = "8:_0D71F6639D414E5095658662A6E0AC2E"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_5C7CB40346664C77B7F1DA5135842E93"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_60788004672B41F08498FA1DC3CB7094"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
         "MsmKey" = "8:_7EEB249CBEBB4EA88ED141BF64349D60"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
@@ -34,13 +58,13 @@
         "Entry"
         {
         "MsmKey" = "8:_C3065E75D821E52FF4F71F9955C8BA09"
-        "OwnerKey" = "8:_0D71F6639D414E5095658662A6E0AC2E"
+        "OwnerKey" = "8:_7EEB249CBEBB4EA88ED141BF64349D60"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_C3065E75D821E52FF4F71F9955C8BA09"
-        "OwnerKey" = "8:_7EEB249CBEBB4EA88ED141BF64349D60"
+        "OwnerKey" = "8:_0D71F6639D414E5095658662A6E0AC2E"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -53,6 +77,12 @@
         {
         "MsmKey" = "8:_UNDEFINED"
         "OwnerKey" = "8:_0D71F6639D414E5095658662A6E0AC2E"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_59FFAD58016B3EAF5AC30E0BC9B6B902"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -133,6 +163,34 @@
     {
         "CustomAction"
         {
+            "{4AA51A2D-7D85-4A59-BA75-B0809FC8B380}:_7C78DA8F9183482CBDDF6C17BB23722D"
+            {
+            "Name" = "8:Primary output from GUI (Active)"
+            "Condition" = "8:"
+            "Object" = "8:_0D71F6639D414E5095658662A6E0AC2E"
+            "FileType" = "3:2"
+            "InstallAction" = "3:1"
+            "Arguments" = "8:"
+            "EntryPoint" = "8:"
+            "Sequence" = "3:2"
+            "Identifier" = "8:_DD9FD0DA_B31F_4BCB_8755_1F4E17969CB3"
+            "InstallerClass" = "11:TRUE"
+            "CustomActionData" = "8:"
+            }
+            "{4AA51A2D-7D85-4A59-BA75-B0809FC8B380}:_9742BB1348A249A9BC5530BEE162DE81"
+            {
+            "Name" = "8:Primary output from GUI (Active)"
+            "Condition" = "8:"
+            "Object" = "8:_0D71F6639D414E5095658662A6E0AC2E"
+            "FileType" = "3:2"
+            "InstallAction" = "3:4"
+            "Arguments" = "8:"
+            "EntryPoint" = "8:"
+            "Sequence" = "3:2"
+            "Identifier" = "8:_95C2AA98_D7A0_4EE4_8D4D_B95FD3CFAF67"
+            "InstallerClass" = "11:TRUE"
+            "CustomActionData" = "8:"
+            }
             "{4AA51A2D-7D85-4A59-BA75-B0809FC8B380}:_A9038805E8B44D90B926180D01A9F91F"
             {
             "Name" = "8:Primary output from TimerService (Active)"
@@ -204,9 +262,80 @@
             "IsDependency" = "11:FALSE"
             "IsolateTo" = "8:"
             }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_59FFAD58016B3EAF5AC30E0BC9B6B902"
+            {
+            "AssemblyRegister" = "3:2"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:DataBaseLibrary, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_59FFAD58016B3EAF5AC30E0BC9B6B902"
+                    {
+                    "Name" = "8:DataBaseLibrary.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:DataBaseLibrary.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_0708642BE2A0417FAD7D6AEFBC940228"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_5C7CB40346664C77B7F1DA5135842E93"
+            {
+            "SourcePath" = "8:..\\DataBaseLibrary\\TimeTracker_log.ldf"
+            "TargetName" = "8:TimeTracker_log.ldf"
+            "Tag" = "8:"
+            "Folder" = "8:_0708642BE2A0417FAD7D6AEFBC940228"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_60788004672B41F08498FA1DC3CB7094"
+            {
+            "SourcePath" = "8:..\\DataBaseLibrary\\TimeTracker.mdf"
+            "TargetName" = "8:TimeTracker.mdf"
+            "Tag" = "8:"
+            "Folder" = "8:_0708642BE2A0417FAD7D6AEFBC940228"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:FALSE"
+            "IsolateTo" = "8:"
+            }
             "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_C3065E75D821E52FF4F71F9955C8BA09"
             {
-            "AssemblyRegister" = "3:1"
+            "AssemblyRegister" = "3:2"
             "AssemblyIsInGAC" = "11:FALSE"
             "AssemblyAsmDisplayName" = "8:System.Net.Http, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"
                 "ScatterAssemblies"
@@ -220,7 +349,7 @@
             "SourcePath" = "8:System.Net.Http.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
-            "Folder" = "8:_0708642BE2A0417FAD7D6AEFBC940228"
+            "Folder" = "8:_E028B3A4A47B4BC4AB0391956A92387A"
             "Condition" = "8:"
             "Transitive" = "11:FALSE"
             "Vital" = "11:TRUE"
@@ -286,6 +415,17 @@
                 {
                 }
             }
+            "{1525181F-901A-416C-8A58-119130FE478E}:_E028B3A4A47B4BC4AB0391956A92387A"
+            {
+            "Name" = "8:#1910"
+            "AlwaysCreate" = "11:FALSE"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Property" = "8:CommonFilesFolder"
+                "Folders"
+                {
+                }
+            }
         }
         "LaunchCondition"
         {
@@ -301,9 +441,9 @@
         "Product"
         {
         "Name" = "8:Microsoft Visual Studio"
-        "ProductName" = "8:TimeTracker"
+        "ProductName" = "8:Time Tracker"
         "ProductCode" = "8:{5D04C33B-0CB7-4829-B5DD-50B42C0DBF97}"
-        "PackageCode" = "8:{F2984716-C1B7-4773-8CB3-CA674FC50A1E}"
+        "PackageCode" = "8:{0BA77A82-74F6-4B59-8671-2ED186563AD6}"
         "UpgradeCode" = "8:{BDA07B2C-893C-48BB-8EF2-729AC8245EE9}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"

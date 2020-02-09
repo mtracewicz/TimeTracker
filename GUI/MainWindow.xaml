@@ -22,18 +22,28 @@
             <RowDefinition Height="1*"/>
             <RowDefinition Height="1*"/>
             <RowDefinition Height="1*"/>
+            <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
         <Button Name="SettingsButton" Content="Settings" Background="#f03e47" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,5,5,5" Padding="5,5,5,5" Click="SettingsButton_Click"/>
-        <Button MinHeight="50px" Name="StartButton" Content="Start tracking" Click="StartButton_Click" Grid.Column="0" Grid.Row="5" Background="#f03e47" Grid.ColumnSpan="3" VerticalAlignment="Bottom"/>
-        <Button MinHeight="50px" Name="StopButton" Content="Stop tracking" Grid.Column="3" Grid.Row="5" Click="StopButton_Click" Background="#f03e47" Grid.ColumnSpan="3" VerticalAlignment="Bottom"/>
+        <Button MinHeight="50px" Name="StartButton" Content="Start tracking" Click="StartButton_Click" Grid.Column="0" Grid.Row="6" Background="#f03e47" Grid.ColumnSpan="3" VerticalAlignment="Bottom"/>
+        <Button MinHeight="50px" Name="StopButton" Content="Stop tracking" Grid.Column="3" Grid.Row="6" Click="StopButton_Click" Background="#f03e47" Grid.ColumnSpan="3" VerticalAlignment="Bottom"/>
+        <Label Content="Application:" Grid.Row="0" Grid.Column="1" Background="#f03e47" VerticalAlignment="Bottom" Height="25"/>
+        <ComboBox x:Name="AppsListBox" Grid.Row="0" Grid.Column="2" VerticalAlignment="Bottom" Height="25" SelectionChanged="AppsListBox_SelectionChanged"/>
+        <Label Content="Date:" Grid.Row="0" Grid.Column="3" Background="#f03e47" VerticalAlignment="Bottom" Height="25"/>
+        <DatePicker x:Name="RecordDatePicker" Grid.Row="0" Grid.Column="4" VerticalAlignment="Bottom" Height="25" SelectedDateChanged="RecordDatePicker_SelectedDateChanged"/>
         <DockPanel LastChildFill="True" Background="#f03e47" MaxHeight="25px" VerticalAlignment="Top" Grid.Column="4" Grid.ColumnSpan="2">
             <Label Content="Service status:"/>
             <Label Name="ServiceStatusLabel" Content=""/>
         </DockPanel>
-        <ScrollViewer Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="4" Grid.RowSpan="4" VerticalScrollBarVisibility="Auto">
-            <StackPanel Background="#ff555b6e" Name="EntriesPanel">
-
-            </StackPanel>
-        </ScrollViewer>
+        <DataGrid Grid.Row="1" Grid.Column="1" Grid.RowSpan="4" Grid.ColumnSpan="4" AutoGenerateColumns="False" Background="#ff555b6e" Name="EntriesPanel" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" IsSynchronizedWithCurrentItem="True" CanUserAddRows="False" CanUserDeleteRows="False" RowBackground="#ff555b6e" AlternatingRowBackground="#ff555b6e" AutomationProperties.IsRowHeader="True" HeadersVisibility="Column" MinColumnWidth="130" HorizontalScrollBarVisibility="Disabled">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Application" Binding="{Binding Path=AppName}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Start Time" Binding="{Binding Path=StartTime}" IsReadOnly="True" />
+                <DataGridTextColumn Header="End Time" Binding="{Binding Path=Stopime}" IsReadOnly="True"/>
+                <DataGridTextColumn Header="Run Time" Binding="{Binding Path=RunTime}" IsReadOnly="True"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        <Button x:Name="ResetButton" Content="Reset" Grid.Column="1" Grid.Row="5" Grid.ColumnSpan="2" VerticalAlignment="Top" Background="#f03e47" Click="ResetButton_Click"/>
+        <Button x:Name="RefreshButton" Content="Refresh" Grid.Column="3" Grid.Row="5" Grid.ColumnSpan="2" VerticalAlignment="Top" Background="#f03e47" Click="RefreshButton_Click"/>
     </Grid>
 </Window>

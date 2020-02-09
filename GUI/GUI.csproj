@@ -118,5 +118,11 @@
   <ItemGroup>
     <EmbeddedResource Include="timer.ico" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DataBaseLibrary\DataBaseLibrary.csproj">
+      <Project>{4417FC98-D26F-472F-8CBC-29933BD3CE72}</Project>
+      <Name>DataBaseLibrary</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

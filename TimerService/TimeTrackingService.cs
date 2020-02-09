@@ -1,10 +1,12 @@
-﻿using System;
+﻿using DataBaseLibrary;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Diagnostics;
 using System.Linq;
 using System.ServiceProcess;
 using System.Text;
+using System.Timers;
 
 namespace TimerService
 {
@@ -13,58 +15,71 @@ namespace TimerService
 
         private EventLog _EventLog;
         private List<String> _AppsToTrack;
+        private List<RecordModel> _CurrentlyTracked;
+
         public TimeTrackingService()
         {
             InitializeComponent();
-            this.ServiceName = "TimeTrackerService";
         }
 
         protected override void OnStart(string[] args)
         {
-            this.SetUpEventLog();
             _AppsToTrack = ConfigurationManager.AppSettings.Get("AppsToTrack").Split(',').ToList();
+            _CurrentlyTracked = new List<RecordModel>();
+            this.SetUpEventLog();
+            this.LogWhatsTracked();
+            this.SetUpTimer();
+        }
+
+        protected override void OnStop()
+        {
+            _EventLog.WriteEntry($"Tracking ended at {DateTime.Now}", EventLogEntryType.Information);
+        }
+
+        private void CheckProcessesStatus()
+        {
             try
             {
-                StringBuilder stringBuilder = new StringBuilder($"Tracking started at {DateTime.Now}\nTracking following apps:\n");
-                foreach(String app in _AppsToTrack)
-                {
-                    if (!String.IsNullOrWhiteSpace(app))
-                    {
-                        stringBuilder.Append($"\t* {app}\n");
-                    }                    
-                }                
-                _EventLog.WriteEntry(stringBuilder.ToString(), EventLogEntryType.Information);
                 foreach (String app in _AppsToTrack)
                 {
-                    var processes = Process.GetProcessesByName(app);
-                    DateTime? firstStartTime = null;
-                    foreach (Process process in processes)
+                    RecordModel record;
+                    if (_CurrentlyTracked.Where(r => r.AppName.Equals(app)).Any())
                     {
-                        if (firstStartTime == null)
+                        if (!this.CheckIfAppProccessIsRunning(app))
                         {
-                            firstStartTime = process.StartTime;
+                            record = _CurrentlyTracked.Where(r => r.AppName.Equals(app)).First();
+                            record.EndTime = DateTime.Now;
+                            DataAccess.UpdateRecord(record);
+                            _EventLog.WriteEntry(record.ToString());
                         }
-                        else
-                        {
-                            firstStartTime = (process.StartTime <= firstStartTime) ? process.StartTime : firstStartTime;
-                        }
-                        this.AddLogingOnProcessExit(process);
+
                     }
-                    if (firstStartTime != null)
+                    else
                     {
-                        _EventLog.WriteEntry($"Process:{app} started at {firstStartTime}", EventLogEntryType.Information);
+                        if (this.CheckIfAppProccessIsRunning(app))
+                        {
+                            var processes = Process.GetProcessesByName(app);
+                            DateTime firstStartTime = DateTime.Now;
+                            foreach (Process process in processes)
+                            {
+                                firstStartTime = (process.StartTime <= firstStartTime) ? process.StartTime : firstStartTime;
+                            }
+                            record = new RecordModel(app, firstStartTime);
+                            DataAccess.AddRecord(ref record);
+                            _CurrentlyTracked.Add(record);
+                        }
                     }
                 }
             }
             catch (Exception e)
             {
-                _EventLog.WriteEntry($"Error message: {e.Message}", EventLogEntryType.Error);
+                _EventLog.WriteEntry($"Error message: {e.Message}- Stack trace:{e.StackTrace}", EventLogEntryType.Error);
             }
         }
 
-        protected override void OnStop()
+        private bool CheckIfAppProccessIsRunning(String appName)
         {
-            _EventLog.WriteEntry($"Tracking ended at {DateTime.Now}");
+            return Process.GetProcessesByName(appName).Length > 0;
         }
 
         private void SetUpEventLog()
@@ -78,16 +93,28 @@ namespace TimerService
             _EventLog = new EventLog(eventLogName, ".", sourceName);
         }
 
-        private void AddLogingOnProcessExit(Process process)
+        private void SetUpTimer()
         {
-            process.EnableRaisingEvents = true;
-            process.Exited += new EventHandler((object sender, EventArgs e) =>
+            Timer timer = new Timer(60000);
+            timer.Elapsed += new ElapsedEventHandler((sender, e) =>
             {
-                if (Process.GetProcessesByName((sender as Process).ProcessName).Length == 0)
-                {
-                    _EventLog.WriteEntry($"Process:{process.ProcessName} ended at {process.ExitTime}", EventLogEntryType.Information);
-                }
+                CheckProcessesStatus();
             });
+            timer.AutoReset = false;
+            timer.Start();
+        }
+
+        private void LogWhatsTracked()
+        {
+            StringBuilder stringBuilder = new StringBuilder($"Tracking started at {DateTime.Now}\nTracking following apps:\n");
+            foreach (String app in _AppsToTrack)
+            {
+                if (!String.IsNullOrWhiteSpace(app))
+                {
+                    stringBuilder.Append($"\t* {app}\n");
+                }
+            }
+            _EventLog.WriteEntry(stringBuilder.ToString(), EventLogEntryType.Information);
         }
     }
 }

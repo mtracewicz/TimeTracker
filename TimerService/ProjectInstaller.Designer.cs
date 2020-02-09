@@ -39,6 +39,7 @@
             // 
             // serviceInstaller
             // 
+            this.serviceInstaller.DisplayName = "Time Tracker Service";
             this.serviceInstaller.ServiceName = "TimeTrackerService";
             // 
             // ProjectInstaller
