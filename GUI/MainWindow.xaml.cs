@@ -25,7 +25,8 @@ namespace GUI
         {
             _ServiceController = new ServiceController("TimeTrackerService");
             _ServiceController.Start();
-            ServiceStatusLabel.Content = _ServiceController.Status.ToString();
+            ServiceStatusLabel.Content = "Running";
+            ServiceStatusLabel.Background = Utils.GetBrushFromHex("#ff89b0ae");
             EnableStartStopButtons(true);
         }
 
@@ -76,11 +77,6 @@ namespace GUI
                 MessageBox.Show($"{e.Message}", "ERROR!", MessageBoxButton.OK, MessageBoxImage.Error);
                 this.Close();
             }
-        }
-
-        private void ResetButton_Click(object sender, RoutedEventArgs e)
-        {
-            EntriesPanel.ItemsSource = _Records;
         }
 
         private void RefreshButton_Click(object sender, RoutedEventArgs e)

@@ -25,6 +25,7 @@ namespace DataBaseLibrary
             };
             int lastId = (from r in dc.Records orderby r.ID descending select r.ID).SingleOrDefault();
             dbRecord.ID = lastId + 1;
+            record.Id = dbRecord.ID;
             dc.Records.InsertOnSubmit(dbRecord);
             dc.SubmitChanges();
         }

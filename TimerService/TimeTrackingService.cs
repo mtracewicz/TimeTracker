@@ -47,7 +47,7 @@ namespace TimerService
                 }
 
             });
-            timer.AutoReset = false;
+            timer.AutoReset = true;
             timer.Start();
         }
 

@@ -25,6 +25,8 @@ namespace TimerService
 
         }
 
+
+
         public static String GetLogName()
         {
 

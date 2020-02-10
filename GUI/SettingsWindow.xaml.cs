@@ -21,6 +21,7 @@ namespace GUI
         {
             InitializeComponent();
             this.LoadAppsList();
+            this.LoadTimerAccuracy();
         }
 
         public SettingsWindow(Window mainWindow)
@@ -28,6 +29,14 @@ namespace GUI
             InitializeComponent();
             _MainWindow = mainWindow;
             this.LoadAppsList();
+            this.LoadTimerAccuracy();
+        }
+
+        private void LoadTimerAccuracy()
+        {
+            var config = ConfigurationManager.OpenExeConfiguration("TimerService.exe");
+            string value = config.AppSettings.Settings["TimerInterval"].Value;
+            TimerAccuracyBox.Text = value.Substring(0,value.Length-3) ?? "60";
         }
 
         private void LoadAppsList()
@@ -74,6 +83,14 @@ namespace GUI
                 builder.Append($"{app},");
             }
             config.AppSettings.Settings["AppsToTrack"].Value = builder.ToString();
+            if (int.TryParse(TimerAccuracyBox.Text, out _))
+            {
+                config.AppSettings.Settings["TimerInterval"].Value = $"{TimerAccuracyBox.Text}000";
+            }
+            else
+            {
+                config.AppSettings.Settings["TimerInterval"].Value = "60000";
+            }
             config.Save();
             MessageBox.Show("Configuration sucessfully saved!", "Settings", MessageBoxButton.OK, MessageBoxImage.Information);
         }
@@ -85,13 +102,19 @@ namespace GUI
                 Filter = "Executable Files (.exe)|*.exe"
             };
             fileDialog.ShowDialog();
+
+            if (String.IsNullOrEmpty(fileDialog.FileName))
+            {
+                return;
+            }
+
             if (!_AppsToTrack.Contains(fileDialog.FileName))
             {
-                DockPanel dockPanel = ControlsFactory.CreateDockpanel(fileDialog.FileName, RemoveButton_Click);
+                DockPanel dockPanel = ControlsFactory.CreateDockpanel(Path.GetFileName(fileDialog.FileName), RemoveButton_Click);
                 TrackedAppsPanel.Children.Add(dockPanel);
-                _AppsToTrack.Add(fileDialog.FileName);
+                _AppsToTrack.Add(Path.GetFileName(fileDialog.FileName));
             }
-            else 
+            else
             {
                 MessageBox.Show("App is already added!", "Duplicate!", MessageBoxButton.OK, MessageBoxImage.Warning);
             }

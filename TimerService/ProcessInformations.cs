@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 
 namespace TimerService
@@ -9,8 +10,8 @@ namespace TimerService
     class ProcessInformations
     {
 
-        private List<String> _AppsToTrack;
-        private List<RecordModel> _CurrentlyTracked;
+        private readonly List<String> _AppsToTrack;
+        private readonly List<RecordModel> _CurrentlyTracked;
 
         public ProcessInformations(IEnumerable<String> appToTrack)
         {
@@ -19,13 +20,13 @@ namespace TimerService
         }
 
         public bool CheckIfAppProccessIsRunning(String appName)
-        {
-            return Process.GetProcessesByName(appName).Length > 0;
+        {         
+            return (Process.GetProcessesByName(appName).Length > 0 || Process.GetProcessesByName(Path.GetFileNameWithoutExtension(appName)).Length > 0);
         }
 
         public DateTime FindFirstStartedProcess(String appName)
         {
-            if (CheckIfAppProccessIsRunning(appName))
+            if (!CheckIfAppProccessIsRunning(appName))
             {
                 throw new ArgumentException($"There is no process for {appName}");
             }
@@ -93,6 +94,7 @@ namespace TimerService
         {
             record.EndTime = endTime;
             DataAccess.UpdateRecord(record);
+            _CurrentlyTracked.Remove(record);
         }
     }
 }
