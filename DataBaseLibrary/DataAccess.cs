@@ -9,7 +9,6 @@ namespace DataBaseLibrary
         public static IEnumerable<RecordModel> GetRecords()
         {
             TimeTrackerDataContext dc = new TimeTrackerDataContext();
-
             var data = from r in dc.Records select new RecordModel(r.AppName, r.StartTime, r.EndTime, r.ID);
             return data.AsEnumerable();
 

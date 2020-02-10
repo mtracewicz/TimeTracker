@@ -9,7 +9,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimerService", "TimerServic
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataBaseLibrary", "DataBaseLibrary\DataBaseLibrary.csproj", "{4417FC98-D26F-472F-8CBC-29933BD3CE72}"
 EndProject
-Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "SetUp", "SetUp\SetUp.vdproj", "{E4DF92C8-7759-4F2C-ADE6-8944678C88C8}"
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "TimeTrackerInstaller", "SetUp\SetUp.vdproj", "{E4DF92C8-7759-4F2C-ADE6-8944678C88C8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WCFLibrary", "WCFLibrary\WCFLibrary.csproj", "{89F151F8-1201-4266-9176-C56C4B93F11C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,6 +33,10 @@ Global
 		{4417FC98-D26F-472F-8CBC-29933BD3CE72}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E4DF92C8-7759-4F2C-ADE6-8944678C88C8}.Debug|Any CPU.ActiveCfg = Debug
 		{E4DF92C8-7759-4F2C-ADE6-8944678C88C8}.Release|Any CPU.ActiveCfg = Release
+		{89F151F8-1201-4266-9176-C56C4B93F11C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{89F151F8-1201-4266-9176-C56C4B93F11C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{89F151F8-1201-4266-9176-C56C4B93F11C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{89F151F8-1201-4266-9176-C56C4B93F11C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

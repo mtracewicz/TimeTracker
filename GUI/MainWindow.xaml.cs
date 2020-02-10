@@ -12,15 +12,21 @@ namespace GUI
     /// </summary>
     public partial class MainWindow : Window
     {
-        private readonly ServiceController _ServiceController;
+        private ServiceController _ServiceController;
         private List<RecordModel> _Records;
         public MainWindow()
         {
             InitializeComponent();
-            _ServiceController = new ServiceController("TimeTrackerService");
-            ServiceStatusLabel.Content = _ServiceController.Status.ToString();
-            EnableStartStopButtons(_ServiceController.Status == ServiceControllerStatus.Running);
+            SetUpService();
             LoadData();
+        }
+
+        private void SetUpService()
+        {
+            _ServiceController = new ServiceController("TimeTrackerService");
+            _ServiceController.Start();
+            ServiceStatusLabel.Content = _ServiceController.Status.ToString();
+            EnableStartStopButtons(true);
         }
 
         private void StartButton_Click(object sender, RoutedEventArgs e)
@@ -54,11 +60,14 @@ namespace GUI
             settings.Show();
             this.Hide();
         }
-        private void LoadData()
+        private async void LoadData()
         {
             try
             {
-                _Records = DataAccess.GetRecords().ToList();
+                using (TimeTrackerServerReference.RecordsClient recordsClient = new TimeTrackerServerReference.RecordsClient())
+                {
+                    _Records = Utils.Convert(await recordsClient.GetRecordsDataAsync());
+                }
                 AppsListBox.ItemsSource = _Records;
                 EntriesPanel.ItemsSource = _Records;
             }
@@ -84,27 +93,55 @@ namespace GUI
             string sellected = (AppsListBox.SelectedItem != null) ? AppsListBox.SelectedItem.ToString() : "";
             if (RecordDatePicker.SelectedDate != null)
             {
-                EntriesPanel.ItemsSource = _Records.Where(r => r.AppName.Equals(sellected))
-                    .Where(r => r.StartTime.Date.Equals(RecordDatePicker.SelectedDate));
+                EntriesPanel.ItemsSource = GetRecordModels(sellected, RecordDatePicker.SelectedDate);
             }
             else
             {
-                EntriesPanel.ItemsSource = _Records.Where(r => r.AppName.Equals(sellected));
+                EntriesPanel.ItemsSource = GetRecordModelsForName(sellected);
             }
         }
 
         private void RecordDatePicker_SelectedDateChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
         {
             string sellected = (AppsListBox.SelectedItem != null) ? AppsListBox.SelectedItem.ToString() : "";
-            if (!sellected.Equals(""))
+            if (!String.IsNullOrEmpty(sellected))
             {
-                EntriesPanel.ItemsSource = _Records.Where(r => r.AppName.Equals(sellected)).Where(r => r.StartTime.Date.Equals(RecordDatePicker.SelectedDate));
+                EntriesPanel.ItemsSource = GetRecordModels(sellected,RecordDatePicker.SelectedDate);
             }
             else
             {
-                EntriesPanel.ItemsSource = _Records.Where(r => r.StartTime.Date.Equals(RecordDatePicker.SelectedDate));
+                EntriesPanel.ItemsSource = GetRecordModelsForDate(RecordDatePicker.SelectedDate);
             }
+        }
 
+        private IEnumerable<RecordModel> GetRecordModelsForName(string appName)
+        {
+            return _Records.Where(r => r.AppName.Equals(appName));
+        }
+
+        private IEnumerable<RecordModel> GetRecordModelsForDate(DateTime? startTime)
+        {
+            if(startTime != null)
+            {
+                return _Records.Where(r => r.StartTime.Date.Equals(startTime));
+            }
+            else
+            {
+                return _Records;
+            }
+            
+        }
+
+        private IEnumerable<RecordModel> GetRecordModels(string appName, DateTime? startTime)
+        {
+            if(startTime == null)
+            {
+                return GetRecordModelsForName(appName);
+            }
+            else
+            {
+                return _Records.Where(r => r.AppName.Equals(appName)).Where(r => r.StartTime.Date.Equals(startTime));
+            }            
         }
     }
 }

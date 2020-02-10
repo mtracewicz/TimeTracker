@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ReferenceGroup xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" ID="a960b2b4-900e-46d0-bdb3-cfdb8e91599a" xmlns="urn:schemas-microsoft-com:xml-wcfservicemap">
+  <ClientOptions>
+    <GenerateAsynchronousMethods>false</GenerateAsynchronousMethods>
+    <GenerateTaskBasedAsynchronousMethod>true</GenerateTaskBasedAsynchronousMethod>
+    <EnableDataBinding>true</EnableDataBinding>
+    <ExcludedTypes />
+    <ImportXmlTypes>false</ImportXmlTypes>
+    <GenerateInternalTypes>false</GenerateInternalTypes>
+    <GenerateMessageContracts>false</GenerateMessageContracts>
+    <NamespaceMappings />
+    <CollectionMappings />
+    <GenerateSerializableTypes>true</GenerateSerializableTypes>
+    <Serializer>Auto</Serializer>
+    <UseSerializerForFaults>true</UseSerializerForFaults>
+    <ReferenceAllAssemblies>true</ReferenceAllAssemblies>
+    <ReferencedAssemblies />
+    <ReferencedDataContractTypes />
+    <ServiceContractMappings />
+  </ClientOptions>
+  <MetadataSources>
+    <MetadataSource Address="http://localhost:8888/TimerService/TimeTrackerServer/mex" Protocol="mex" SourceId="1" />
+  </MetadataSources>
+  <Metadata>
+    <MetadataFile FileName="service.wsdl" MetadataType="Wsdl" ID="89443792-e7c1-4ad3-98c9-fb3b20bb3a3d" SourceId="1" SourceUrl="http://localhost:8888/TimerService/TimeTrackerServer/mex" />
+    <MetadataFile FileName="service.xsd" MetadataType="Schema" ID="7501ba42-a488-4d0e-ad13-18e79902fbd1" SourceId="1" SourceUrl="http://localhost:8888/TimerService/TimeTrackerServer/mex" />
+    <MetadataFile FileName="service1.xsd" MetadataType="Schema" ID="27ea4886-f964-4fde-99b9-06a89cccb1ce" SourceId="1" SourceUrl="http://localhost:8888/TimerService/TimeTrackerServer/mex" />
+    <MetadataFile FileName="WCFLibrary.xsd" MetadataType="Schema" ID="1e10961a-e2a8-45d2-adc5-0fe5c78c4ec5" SourceId="1" SourceUrl="http://localhost:8888/TimerService/TimeTrackerServer/mex" />
+  </Metadata>
+  <Extensions>
+    <ExtensionFile FileName="configuration91.svcinfo" Name="configuration91.svcinfo" />
+    <ExtensionFile FileName="configuration.svcinfo" Name="configuration.svcinfo" />
+  </Extensions>
+</ReferenceGroup>
