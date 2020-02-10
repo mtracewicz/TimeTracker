@@ -145,7 +145,7 @@ namespace GUI
                         MessageBox.Show($"Error while saving file!\nNo records", "Report generation", MessageBoxButton.OK, MessageBoxImage.Error);
                         return;
                     }
-                    await ReportGenerator.WriteReportToFileAsync(saveFileDialog.FileName, reportEntries);
+                    await ReportWriter.WriteReportToFileAsync(saveFileDialog.FileName, reportEntries);
                     MessageBox.Show("File saved!", "Report generation", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
                 catch (Exception ex)

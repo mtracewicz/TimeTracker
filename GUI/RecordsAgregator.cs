@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace GUI
 {
-    class RecordsAgregator
+    public class RecordsAgregator
     {
         public IEnumerable<RecordModel> GetRecordModelsForName(string appName, IEnumerable<RecordModel> records)
         {
@@ -17,7 +17,7 @@ namespace GUI
         {
             if (startTime != null)
             {
-                return records.Where(r => r.StartTime.Date.Equals(startTime));
+                return records.Where(r => r.StartTime.Date.Equals(startTime.Value.Date));
             }
             else
             {
@@ -34,7 +34,7 @@ namespace GUI
             }
             else
             {
-                return records.Where(r => r.AppName.Equals(appName)).Where(r => r.StartTime.Date.Equals(startTime));
+                return records.Where(r => r.AppName.Equals(appName)).Where(r => r.StartTime.Date.Equals(startTime.Value.Date));
             }
         }
 

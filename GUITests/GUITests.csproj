@@ -58,6 +58,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RecordsAgregatorTests.cs" />
     <Compile Include="UtilsTests.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -71,6 +72,10 @@
     <ProjectReference Include="..\GUI\GUI.csproj">
       <Project>{04B1D3FF-A1B1-4C16-98EA-66015D9728A2}</Project>
       <Name>GUI</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ReportsLibrary\ReportsLibrary.csproj">
+      <Project>{61FE0D17-E66B-429A-9BED-639C6FBA9B8D}</Project>
+      <Name>ReportsLibrary</Name>
     </ProjectReference>
     <ProjectReference Include="..\WCFLibrary\WCFLibrary.csproj">
       <Project>{89F151F8-1201-4266-9176-C56C4B93F11C}</Project>

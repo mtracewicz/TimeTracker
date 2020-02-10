@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ReportsLibrary
 {
-    public class ReportGenerator
+    public class ReportWriter
     {
         public static Task WriteReportToFileAsync(string fileName, IEnumerable<ReportEntryModel> reportEntries)
         {
