@@ -75,6 +75,7 @@
       <DependentUpon>Reference.svcmap</DependentUpon>
     </Compile>
     <Compile Include="ControlsFactory.cs" />
+    <Compile Include="RecordsAgregator.cs" />
     <Compile Include="SettingsWindow.xaml.cs">
       <DependentUpon>SettingsWindow.xaml</DependentUpon>
     </Compile>
@@ -141,6 +142,10 @@
     <ProjectReference Include="..\DataBaseLibrary\DataBaseLibrary.csproj">
       <Project>{4417FC98-D26F-472F-8CBC-29933BD3CE72}</Project>
       <Name>DataBaseLibrary</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ReportsLibrary\ReportsLibrary.csproj">
+      <Project>{61fe0d17-e66b-429a-9bed-639c6fba9b8d}</Project>
+      <Name>ReportsLibrary</Name>
     </ProjectReference>
     <ProjectReference Include="..\WCFLibrary\WCFLibrary.csproj">
       <Project>{89F151F8-1201-4266-9176-C56C4B93F11C}</Project>

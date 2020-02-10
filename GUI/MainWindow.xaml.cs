@@ -1,4 +1,6 @@
 ﻿using DataBaseLibrary;
+using Microsoft.Win32;
+using ReportsLibrary;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,9 +16,12 @@ namespace GUI
     {
         private ServiceController _ServiceController;
         private List<RecordModel> _Records;
+        private readonly RecordsAgregator _RecordsAgregator;
+
         public MainWindow()
         {
             InitializeComponent();
+            _RecordsAgregator = new RecordsAgregator();
             SetUpService();
             LoadData();
         }
@@ -24,11 +29,11 @@ namespace GUI
         private void SetUpService()
         {
             _ServiceController = new ServiceController("TimeTrackerService");
-            if(_ServiceController.Status != ServiceControllerStatus.Running || _ServiceController.Status != ServiceControllerStatus.StartPending)
+            if (!(_ServiceController.Status == ServiceControllerStatus.Running || _ServiceController.Status == ServiceControllerStatus.StartPending))
             {
                 _ServiceController.Start();
                 ServiceStatusLabel.Content = "Running";
-            }            
+            }
             ServiceStatusLabel.Background = Utils.GetBrushFromHex("#ff89b0ae");
             EnableStartStopButtons(true);
         }
@@ -72,7 +77,7 @@ namespace GUI
                 {
                     _Records = Utils.Convert(await recordsClient.GetRecordsDataAsync());
                 }
-                AppsListBox.ItemsSource = _Records;
+                AppsListBox.ItemsSource = _Records.Select(r=>r.AppName).Distinct();
                 EntriesPanel.ItemsSource = _Records;
             }
             catch (Exception e)
@@ -92,11 +97,11 @@ namespace GUI
             string sellected = (AppsListBox.SelectedItem != null) ? AppsListBox.SelectedItem.ToString() : "";
             if (RecordDatePicker.SelectedDate != null)
             {
-                EntriesPanel.ItemsSource = GetRecordModels(sellected, RecordDatePicker.SelectedDate);
+                EntriesPanel.ItemsSource = _RecordsAgregator.GetRecordModels(sellected, RecordDatePicker.SelectedDate, _Records);
             }
             else
             {
-                EntriesPanel.ItemsSource = GetRecordModelsForName(sellected);
+                EntriesPanel.ItemsSource = _RecordsAgregator.GetRecordModelsForName(sellected, _Records);
             }
         }
 
@@ -105,42 +110,49 @@ namespace GUI
             string sellected = (AppsListBox.SelectedItem != null) ? AppsListBox.SelectedItem.ToString() : "";
             if (!String.IsNullOrEmpty(sellected))
             {
-                EntriesPanel.ItemsSource = GetRecordModels(sellected,RecordDatePicker.SelectedDate);
+                EntriesPanel.ItemsSource = _RecordsAgregator.GetRecordModels(sellected, RecordDatePicker.SelectedDate, _Records);
             }
             else
             {
-                EntriesPanel.ItemsSource = GetRecordModelsForDate(RecordDatePicker.SelectedDate);
+                EntriesPanel.ItemsSource = _RecordsAgregator.GetRecordModelsForDate(RecordDatePicker.SelectedDate, _Records);
             }
         }
 
-        private IEnumerable<RecordModel> GetRecordModelsForName(string appName)
-        {
-            return _Records.Where(r => r.AppName.Equals(appName));
-        }
 
-        private IEnumerable<RecordModel> GetRecordModelsForDate(DateTime? startTime)
+        private async void ReportButton_Click(object sender, RoutedEventArgs e)
         {
-            if(startTime != null)
+            SaveFileDialog saveFileDialog = new SaveFileDialog
             {
-                return _Records.Where(r => r.StartTime.Date.Equals(startTime));
+                Filter = "csv files (*.csv)|*.csv",
+                FilterIndex = 2
+            };
+            saveFileDialog.ShowDialog();
+            if (!String.IsNullOrEmpty(saveFileDialog.FileName))
+            {
+                try
+                {
+                    IEnumerable<ReportEntryModel> reportEntries;
+                    if (AppsListBox.SelectedItem != null)
+                    {
+                        reportEntries = _RecordsAgregator.CreateReport(AppsListBox.SelectedItem.ToString(), RecordDatePicker.SelectedDate ?? DateTime.Now, _Records);
+                    }
+                    else if (AppsListBox.Items.Count > 0)
+                    {
+                        reportEntries = _RecordsAgregator.CreateReport(AppsListBox.Items[0].ToString(), RecordDatePicker.SelectedDate ?? DateTime.Now, _Records);
+                    }
+                    else
+                    {
+                        MessageBox.Show($"Error while saving file!\nNo records", "Report generation", MessageBoxButton.OK, MessageBoxImage.Error);
+                        return;
+                    }
+                    await ReportGenerator.WriteReportToFileAsync(saveFileDialog.FileName, reportEntries);
+                    MessageBox.Show("File saved!", "Report generation", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error while saving file!\n{ex.Message}", "Report generation", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
             }
-            else
-            {
-                return _Records;
-            }
-            
-        }
-
-        private IEnumerable<RecordModel> GetRecordModels(string appName, DateTime? startTime)
-        {
-            if(startTime == null)
-            {
-                return GetRecordModelsForName(appName);
-            }
-            else
-            {
-                return _Records.Where(r => r.AppName.Equals(appName)).Where(r => r.StartTime.Date.Equals(startTime));
-            }            
         }
     }
 }

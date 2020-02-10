@@ -43,6 +43,7 @@
                 <DataGridTextColumn Header="Run Time" Binding="{Binding Path=RunTime}" IsReadOnly="True"/>
             </DataGrid.Columns>
         </DataGrid>
-        <Button x:Name="RefreshButton" Content="Refresh" Grid.Column="1" Grid.Row="5" Grid.ColumnSpan="4" VerticalAlignment="Top" Background="#f03e47" Click="RefreshButton_Click"/>
+        <Button x:Name="RefreshButton" Content="Refresh" Grid.Column="1" Grid.Row="5" Grid.ColumnSpan="2" VerticalAlignment="Top" Background="#f03e47" Click="RefreshButton_Click"/>
+        <Button x:Name="ReportButton" Content="Generate report" Grid.Column="3" Grid.Row="5" Grid.ColumnSpan="2" VerticalAlignment="Top" Background="#f03e47" Click="ReportButton_Click"/>
     </Grid>
 </Window>

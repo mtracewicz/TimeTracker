@@ -24,10 +24,7 @@ namespace GUI
             StringBuilder builder = new StringBuilder();
             foreach (var app in appsToTrack)
             {
-                if (String.IsNullOrEmpty(app))
-                {
-                    builder.Append($"{app},");
-                }                
+                builder.Append($"{app},");          
             }
             configuration.AppSettings.Settings["AppsToTrack"].Value = builder.ToString();
             configuration.Save();
