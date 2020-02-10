@@ -11,16 +11,16 @@ namespace TimerService
     {
 
         private readonly List<String> _AppsToTrack;
-        private readonly List<RecordModel> _CurrentlyTracked;
+        public List<RecordModel> CurrentlyTracked { get; set; }
 
         public ProcessInformations(IEnumerable<String> appToTrack)
         {
             _AppsToTrack = appToTrack.ToList();
-            _CurrentlyTracked = new List<RecordModel>();
+            CurrentlyTracked = new List<RecordModel>();
         }
 
         public bool CheckIfAppProccessIsRunning(String appName)
-        {         
+        {
             return (Process.GetProcessesByName(appName).Length > 0 || Process.GetProcessesByName(Path.GetFileNameWithoutExtension(appName)).Length > 0);
         }
 
@@ -30,8 +30,13 @@ namespace TimerService
             {
                 throw new ArgumentException($"There is no process for {appName}");
             }
-
+            
             var processes = Process.GetProcessesByName(appName);
+            if(!(processes.Length > 0))
+            {
+                processes = Process.GetProcessesByName(Path.GetFileNameWithoutExtension(appName));
+            }
+
             DateTime firstStartTime = DateTime.Now;
             foreach (Process process in processes)
             {
@@ -80,21 +85,21 @@ namespace TimerService
 
         private IEnumerable<RecordModel> GetRecordModelsForApp(string app)
         {
-            return _CurrentlyTracked.Where(r => r.AppName.Equals(app));
+            return CurrentlyTracked.Where(r => r.AppName.Equals(app));
         }
 
         private void AddTrackedProcess(string appName, DateTime startTime)
         {
             RecordModel record = new RecordModel(appName, startTime);
             DataAccess.AddRecord(ref record);
-            _CurrentlyTracked.Add(record);
+            CurrentlyTracked.Add(record);
         }
 
         private void UpdateTrackedProcess(RecordModel record, DateTime endTime)
         {
             record.EndTime = endTime;
             DataAccess.UpdateRecord(record);
-            _CurrentlyTracked.Remove(record);
+            CurrentlyTracked.Remove(record);
         }
     }
 }

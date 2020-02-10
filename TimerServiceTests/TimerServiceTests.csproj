@@ -63,6 +63,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\DataBaseLibrary\DataBaseLibrary.csproj">
+      <Project>{4417FC98-D26F-472F-8CBC-29933BD3CE72}</Project>
+      <Name>DataBaseLibrary</Name>
+    </ProjectReference>
     <ProjectReference Include="..\TimerService\TimerService.csproj">
       <Project>{B88F7A0D-9F6A-4A29-A3F2-9B6C01BA2161}</Project>
       <Name>TimerService</Name>

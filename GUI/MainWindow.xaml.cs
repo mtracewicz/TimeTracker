@@ -24,8 +24,11 @@ namespace GUI
         private void SetUpService()
         {
             _ServiceController = new ServiceController("TimeTrackerService");
-            _ServiceController.Start();
-            ServiceStatusLabel.Content = "Running";
+            if(_ServiceController.Status != ServiceControllerStatus.Running || _ServiceController.Status != ServiceControllerStatus.StartPending)
+            {
+                _ServiceController.Start();
+                ServiceStatusLabel.Content = "Running";
+            }            
             ServiceStatusLabel.Background = Utils.GetBrushFromHex("#ff89b0ae");
             EnableStartStopButtons(true);
         }
