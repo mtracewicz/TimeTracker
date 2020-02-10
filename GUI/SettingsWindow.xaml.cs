@@ -17,31 +17,36 @@ namespace GUI
     {
         private readonly Window _MainWindow;
         private List<String> _AppsToTrack;
+        private Config _Config;
+        
         public SettingsWindow()
         {
             InitializeComponent();
-            this.LoadAppsList();
-            this.LoadTimerAccuracy();
+            this.SetUp();
         }
 
         public SettingsWindow(Window mainWindow)
         {
             InitializeComponent();
             _MainWindow = mainWindow;
+            this.SetUp();
+        }
+
+        private void SetUp()
+        {
+            this._Config = new Config("TimerService.exe");
             this.LoadAppsList();
-            this.LoadTimerAccuracy();
+            this.LoadTimerAccuracy();            
         }
 
         private void LoadTimerAccuracy()
-        {
-            var config = ConfigurationManager.OpenExeConfiguration("TimerService.exe");
-            string value = config.AppSettings.Settings["TimerInterval"].Value;
-            TimerAccuracyBox.Text = value.Substring(0,value.Length-3) ?? "60";
+        {           
+            TimerAccuracyBox.Text = _Config.GetTimerInterval();
         }
 
         private void LoadAppsList()
         {
-            _AppsToTrack = GetAppsInConfig().ToList();
+            _AppsToTrack = _Config.GetAppsToTrack().ToList();
             foreach (String appName in _AppsToTrack)
             {
                 if (!String.IsNullOrWhiteSpace(appName))
@@ -50,13 +55,7 @@ namespace GUI
                     TrackedAppsPanel.Children.Add(dockPanel);
                 }
             }
-        }
-
-        private IEnumerable<string> GetAppsInConfig()
-        {
-            var config = ConfigurationManager.OpenExeConfiguration("TimerService.exe");
-            return config.AppSettings.Settings["AppsToTrack"].Value.Split(',');
-        }
+        }      
 
         private void RemoveButton_Click(object sender, RoutedEventArgs e)
         {
@@ -73,25 +72,10 @@ namespace GUI
             }
         }
 
-
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
-            var config = ConfigurationManager.OpenExeConfiguration("TimerService.exe");
-            StringBuilder builder = new StringBuilder();
-            foreach (var app in _AppsToTrack)
-            {
-                builder.Append($"{app},");
-            }
-            config.AppSettings.Settings["AppsToTrack"].Value = builder.ToString();
-            if (int.TryParse(TimerAccuracyBox.Text, out _))
-            {
-                config.AppSettings.Settings["TimerInterval"].Value = $"{TimerAccuracyBox.Text}000";
-            }
-            else
-            {
-                config.AppSettings.Settings["TimerInterval"].Value = "60000";
-            }
-            config.Save();
+            _Config.SaveAppsToTrack(_AppsToTrack);
+            _Config.SaveTimerInterval(TimerAccuracyBox.Text);
             MessageBox.Show("Configuration sucessfully saved!", "Settings", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
@@ -108,11 +92,12 @@ namespace GUI
                 return;
             }
 
-            if (!_AppsToTrack.Contains(fileDialog.FileName))
+            string app = Path.GetFileName(fileDialog.FileName);
+            if (!_AppsToTrack.Contains(app))
             {
-                DockPanel dockPanel = ControlsFactory.CreateDockpanel(Path.GetFileName(fileDialog.FileName), RemoveButton_Click);
+                DockPanel dockPanel = ControlsFactory.CreateDockpanel(app, RemoveButton_Click);
                 TrackedAppsPanel.Children.Add(dockPanel);
-                _AppsToTrack.Add(Path.GetFileName(fileDialog.FileName));
+                _AppsToTrack.Add(app);
             }
             else
             {

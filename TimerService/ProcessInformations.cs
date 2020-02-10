@@ -7,7 +7,7 @@ using System.Linq;
 
 namespace TimerService
 {
-    class ProcessInformations
+    public class ProcessInformations
     {
 
         private readonly List<String> _AppsToTrack;
